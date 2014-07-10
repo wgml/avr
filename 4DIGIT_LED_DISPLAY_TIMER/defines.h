@@ -13,13 +13,18 @@
 /*
  * program uses whole 8-pin port for
  * digit displaying, and also pins
- * 0-3 from other port for managing
+ * 0-5 from other port for managing
+ * pin 4 is TIMER_ENABLE
+ * and pin 5 is TIMER_RESET
  */
 
 #define LEDDDR 		DDRA
 #define LEDPORT 	PORTA
 #define CONTROLDDR 	DDRD
 #define CONTROLPORT	PORTD
+#define CONTROLPIN	PIND
+
+//do not change anything behind this point
 
 #define DIG0		0b11000000
 #define DIG1		0b11111001
@@ -34,11 +39,15 @@
 #define DMINUS		0b10111111
 #define DPOINT		0b01111111
 #define DOFF 		0b11111111
+#define LETE		0b10000110
+#define LETR		0b10001000
 
-
-struct Number
+typedef struct Number
 {
-	uint8_t num;
+	uint16_t num;
 	uint8_t pointPos;
-};
+	uint8_t minus;
+	uint8_t skipZeros;
+} Number;
+
 #endif /* DEFINES_H_ */
