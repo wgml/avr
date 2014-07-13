@@ -66,6 +66,7 @@ struct Display
 	unsigned char 	isNegative;	//set 1 if to show '-'
 	unsigned char 	skipZeros;	//set 1 if to skip leading zeros.
 	unsigned char 	changed;	//flag you need to set if you change struct.
+	unsigned char 	forceFractZero;	//set 1 if desired format is 0.12 instead of .12
 
 };
 

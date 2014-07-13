@@ -117,7 +117,8 @@ static void _LEDupdateSegments()
 					{
 						for(uint8_t j = i + 1; j < 4; j++)
 						{
-							values[3 - j] = DOFF;
+							if(!((display.pointPos >> j) == 1) && (display.forceFractZero == 1))
+								values[3 - j] = DOFF;
 						}
 
 						if(display.isNegative == 1)
