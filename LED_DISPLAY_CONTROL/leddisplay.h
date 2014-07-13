@@ -8,7 +8,7 @@
 #ifndef LEDDISPLAY_H_
 #define LEDDISPLAY_H_
 
-#include "defines.h"
+#include "leddefines.h"
 
 static volatile uint8_t			_segments[4];
 static const uint8_t DIGITS[10] = {	DIG0, 	DIG1, 	DIG2, 	DIG3,	DIG4,
