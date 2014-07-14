@@ -13,24 +13,32 @@ void LMInit()
 	ADCSRA = _BV(ADEN) | _BV(ADIE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
 	ADCSRA |= (_BV(ADATE) | _BV(ADSC));
 
-	temperatures.lastKnownTemp = 	0;
+	temperatures.numParts = 	0;
 	temperatures.numSamples = 	0;
 	temperatures.tempAccum =	0;
+	temperatures.firstCycle =	1;
 
 	sei();
 }
 
 uint16_t LMgetTemp()
 {
-	uint32_t val;
-
+	uint32_t vals[NUMPARTS];
+	uint64_t sumVals = 0;
+	uint8_t firstCycle = temperatures.firstCycle;
+	uint16_t sumParts = NUMPARTS;
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
-	val = temperatures.lastKnownTemp;
-	}
+		for(uint16_t part = 0; part < NUMPARTS; part++)
+			vals[part] = temperatures.lastKnownTemp[part];
 
+		if(firstCycle == 1)
+			sumParts = temperatures.numParts;
+	}
+	for(uint16_t part = 0; part < sumParts; part++)
+		sumVals += vals[part];
 	//return (val * 11000UL) / (1024UL * NUMSAMPLES);4
-	return val * 10UL * VREF / (NUMSAMPLES * 1024UL);
+	return sumVals * 10UL * VREF / (NUMSAMPLES * sumParts * 1024UL);
 }
 
 ISR(ADC_vect)
@@ -40,8 +48,16 @@ ISR(ADC_vect)
 
 	if(temperatures.numSamples == NUMSAMPLES)
 	{
-		temperatures.lastKnownTemp = 	temperatures.tempAccum;
+		temperatures.lastKnownTemp[temperatures.numParts++] = temperatures.tempAccum;
 		temperatures.numSamples = 	0;
 		temperatures.tempAccum = 	0;
+
+		if(temperatures.numParts == NUMPARTS)
+		{
+			temperatures.numParts = 0;
+
+			if(temperatures.firstCycle == 1)
+				temperatures.firstCycle = 0;
+		}
 	}
 }

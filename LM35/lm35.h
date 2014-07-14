@@ -9,6 +9,7 @@
 #define LM35_H_
 
 #define NUMSAMPLES	30ULL
+#define NUMPARTS	100ULL
 #define	LMCHANNEL	0b0000
 #define LMPIN		0b00000001
 #define VREF		2560ULL		//in mV
@@ -21,7 +22,10 @@ struct TempContainer
 {
 	uint32_t 	tempAccum;
 	uint16_t	numSamples;
-	uint32_t	lastKnownTemp;
+	uint16_t	numParts;
+	uint32_t	lastKnownTemp[NUMPARTS];
+
+	uint8_t	firstCycle;
 };
 
 static struct TempContainer temperatures;

@@ -46,7 +46,7 @@ void LEDshowOnDisplay()
 		CONTROLPORT = 	~(1 << (seg - 1));
 		LEDPORT = 	_segments[seg - 1];
 
-		_delay_us(200); //todo what do to?
+		_delay_us(500); //todo what do to?
 		LEDPORT =	DOFF;
 	}
 }
