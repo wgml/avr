@@ -6,7 +6,6 @@
  */
 
 #include "leddisplay.h"
-#include <util/delay.h>
 
 int main()
 {
@@ -21,6 +20,7 @@ int main()
 	display.forceFractZero = 1;
 	while(1)
 	{
+		LEDTest();
 		LEDshowOnDisplay();
 	}
 }
