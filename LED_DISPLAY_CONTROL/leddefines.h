@@ -41,7 +41,7 @@
 #define DPOINT		0b01111111
 #define DOFF 		0b11111111
 #define LETE		0b10000110
-#define LETR		0b10001000
+#define LETR		0b10101111
 
 struct Display
 {

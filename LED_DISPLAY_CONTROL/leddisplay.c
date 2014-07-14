@@ -14,7 +14,8 @@ void LEDInit()
 	 * call this function on start
 	 */
 
-	CONTROLDDR |= 	0b1111;
+	CONTROLDDR |= 	0b00001111;
+	CONTROLPORT |=	0b11110000;
 	LEDDDR |= 	0b11111111;
 
 }
@@ -25,10 +26,10 @@ void LEDTest()
 	 * set all segments to work
 	 */
 
-	_segments[0] =	~DOFF;
-	_segments[1] =	~DOFF;
-	_segments[2] =	~DOFF;
-	_segments[3] =	~DOFF;
+	_segments[0] =	(uint8_t) ~DOFF;
+	_segments[1] =	(uint8_t) ~DOFF;
+	_segments[2] =	(uint8_t) ~DOFF;
+	_segments[3] =	(uint8_t) ~DOFF;
 }
 
 void LEDshowOnDisplay()
@@ -45,7 +46,7 @@ void LEDshowOnDisplay()
 		CONTROLPORT = 	~(1 << (seg - 1));
 		LEDPORT = 	_segments[seg - 1];
 
-		_delay_us(100); //todo what do to?
+		_delay_us(200); //todo what do to?
 		LEDPORT =	DOFF;
 	}
 }
