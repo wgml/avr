@@ -1,5 +1,5 @@
-main.d: ../main.c ../leddisplay.h ../defines.h
+main.d: ../main.c ../leddisplay.h ../leddefines.h
 
 ../leddisplay.h:
 
-../defines.h:
+../leddefines.h:
