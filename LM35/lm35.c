@@ -37,7 +37,7 @@ uint16_t LMgetTemp()
 	}
 	for(uint16_t part = 0; part < sumParts; part++)
 		sumVals += vals[part];
-	//return (val * 11000UL) / (1024UL * NUMSAMPLES);4
+
 	return sumVals * 10UL * VREF / (NUMSAMPLES * sumParts * 1024UL);
 }
 
