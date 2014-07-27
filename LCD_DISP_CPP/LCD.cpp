@@ -7,26 +7,7 @@
 
 #include "LCD.h"
 
-/*
-//c++ avr compatibility
-void *operator new(size_t s)     { return malloc(s); }
-void *operator new[](size_t s)   { return malloc(s); }
-void  operator delete(void *m)   { free(m); }
-void  operator delete[](void *m) { free(m); }*/
-
 LCD::LCD() {
-	/*this->numSegments = 1;
-	this->segments = NULL;
-
-	if(!(this->segments = new Segment))
-		this->~LCD(); //abort
-
-	this->segments->container = "";
-	this->segments->width = 16;
-	this->segments->height = 2;
-	this->segments->changed = true;*/
-
-
 	//defaults
 	this->cursor.x = 0;
 	this->cursor.y = 0;
@@ -39,8 +20,6 @@ LCD::LCD() {
 
 LCD::~LCD() {
 	// TODO Auto-generated destructor stub
-	/*if(this->segments)
-		delete this->segments;*/
 }
 
 void LCD::init()
@@ -142,56 +121,3 @@ void LCD::setFunction(bool eightBitPatch, bool twoLines, bool font5x10)
 	this->twoLines = twoLines;
 	this->font5x10 = font5x10;
 }
-/*
-void LCD::setNumSegments(uint8_t num)
-{
-	if(this->numSegments == num)
-		return;
-	if(num != 1 && num != 2 && num != 4)
-		return;
-
-	this->numSegments = num;
-
-	delete this->segments;
-	this->segments = NULL;
-
-	this->segments = new Segment[num];
-
-	for(uint8_t i = 0; i < num; i++)
-	{
-		if(this->numSegments == 1)
-		{
-			this->segments[i].height = 2;
-			this->segments[i].width = 16;
-			this->segments[i].changed = true;
-			this->segments[i].container = "";
-		}
-		else if(this->numSegments == 2)
-		{
-			this->segments[i].height = 1;
-			this->segments[i].width = 16;
-			this->segments[i].changed = true;
-			this->segments[i].container = "";
-		}
-		else
-		{
-			this->segments[i].height = 1;
-			this->segments[i].width = 8;
-			this->segments[i].changed = true;
-			this->segments[i].container = "";
-		}
-	}
-}
-
-uint8_t LCD::getNumSegments()
-{
-	return this->numSegments;
-}
-
-bool LCD::isSegmentChanged(uint8_t seg)
-{
-	if(seg >= this->numSegments)
-		return false;
-	return this->segments[seg].changed;
-}
-*/

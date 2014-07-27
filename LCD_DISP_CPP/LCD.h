@@ -10,7 +10,6 @@
 
 #include "hd44780/hd44780.h" //todo own implementation?
 #include <util/delay.h>
-//#include <stdlib.h> //malloc
 
 class LCD {
 public:
@@ -28,14 +27,9 @@ public:
 	void setCursorVisibility(bool visible, bool blinking);
 	void setFunction(bool eightBitPatch, bool twoLines, bool font5x10);
 
-	//void setNumSegments(uint8_t num);
-	//uint8_t getNumSegments(void);
-
 private:
 
 	void sendChar(uint8_t c); //todo
-
-	//bool isSegmentChanged(uint8_t num); //todo
 
 	struct Cursor
 	{
@@ -57,18 +51,6 @@ private:
 	bool		eightBitPatch;
 	bool		font5x10;
 	bool		twoLines;//todo wrap params inside struct?
-
-	/*struct Segment
-	{
-		uint8_t 	width;
-		uint8_t 	height;
-
-		char * 		container;
-
-		bool 		changed;
-	} * segments;
-
-	uint8_t 		numSegments; //choose between 1, 2 or 4*/
 
 };
 
