@@ -22,7 +22,7 @@ int main()
 	lcd.clear();
 	lcd.goToPos(0, 0);
 
-	lcd.sendText("Receiving...\n");
+	lcd.sendText((const uint8_t *) "Receiving...\n");
 
 	_delay_ms(1000);
 
@@ -32,18 +32,14 @@ int main()
 	UART comm;
 	comm.init();
 
-	unsigned char c;
+	//unsigned char c;
 
 	while(1)
 	{
+		lcd.sendText(comm.receiveText(1, '\n'));
+		comm.sendText((const uint8_t *) "received one char");
+		_delay_ms(1000);
 
-		c = comm.receive() & ~0x80;
-
-		comm.send(c);
-		lcd.sendChar(c);
-
-		if(DEBUG)
-			PORTC = c;
 	}
 
 }

@@ -80,7 +80,7 @@ void LCD::sendText(uint8_t c)
 	this->sendChar(c);
 }
 
-void LCD::sendText(const char * txt, uint8_t delay)
+void LCD::sendText(const unsigned char * txt, uint8_t delay)
 {
 	while(*txt)
 	{

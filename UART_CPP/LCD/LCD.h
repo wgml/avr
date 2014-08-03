@@ -20,7 +20,7 @@ public:
 	void stop(void);
 
 	void goToPos(uint8_t line, uint8_t pos);
-	void sendText(const char[]/*, uint8_t seg = 0*/, uint8_t msDelay = 0);
+	void sendText(const unsigned char[]/*, uint8_t seg = 0*/, uint8_t msDelay = 0);
 	void sendText(uint8_t c);
 	void sendChar(uint8_t c);
 
