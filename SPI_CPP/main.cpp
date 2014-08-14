@@ -6,6 +6,7 @@
  */
 
 #include "SPI.h"
+#define F_CPU 8000000UL
 #include <util/delay.h>
 
 int main()
@@ -16,17 +17,26 @@ int main()
 	comm.init();
 
 	uint8_t pos = 0;
-	int8_t dir = 0;
+	uint8_t val = 1;
+	int8_t dir = 1;
 	while(1)
 	{
+		/*if(pos == 255)
+			dir = -1;
+		else if(pos == 0)
+			dir = 1;*/
+/*
+		pos += dir;
+		comm.sendByte(pos);
+*/
 		if(pos == 7)
 			dir = -1;
 		else if(pos == 0)
 			dir = 1;
-
 		pos += dir;
-		comm.sendByte(1 << pos);
+		val = 1 << pos;
 
+		comm.sendByte(val);
 		_delay_ms(50);
 	}
 }

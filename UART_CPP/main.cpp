@@ -1,44 +1,31 @@
-#include "LCD/hd44780/hd44780.c"
-#include "LCD/LCD.h"
+#define F_CPU 8000000UL
 
 #include "UART.h"
-
-#define DEBUG 0
-
+#include <util/delay.h>
+#include <avr/io.h>
+#define DEBUG 1
 int main()
 {
 
-	if(DEBUG)
-	{
-		DDRC = 0xff;
-		PORTC = 0;
-	}
-
-	LCD lcd;
-	lcd.setCursorVisibility(true, true);
-	lcd.setFunction(false, true, true);
-
-	lcd.init();
-	lcd.clear();
-	lcd.goToPos(0, 0);
-
-	lcd.sendText((const uint8_t *) "Receiving...\n");
-
-	_delay_ms(1000);
-
-	lcd.clear();
-	lcd.goToPos(0, 0);
+#ifdef DEBUG
+	DDRC = 0xff;
+	PORTC = 0xff;
+#endif
 
 	UART comm;
 	comm.init();
 
-	//unsigned char c;
+	unsigned char c;
 
 	while(1)
 	{
-		lcd.sendText(comm.receiveText(1, '\n'));
-		comm.sendText((const uint8_t *) "received one char");
-		_delay_ms(1000);
+		c = comm.receiveChar();
+#ifdef DEBUG
+		PORTC = c;
+#endif
+
+		comm.sendChar(c);
+		_delay_ms(10);
 
 	}
 

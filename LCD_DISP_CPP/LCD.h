@@ -20,17 +20,21 @@ public:
 	void stop(void);
 
 	void goToPos(uint8_t line, uint8_t pos);
+
 	void sendText(const char[]/*, uint8_t seg = 0*/, uint8_t msDelay = 0);
 	void sendChar(uint8_t c);
+	void sendInt(int32_t i, uint8_t msDelay = 0);
+	void sendDigit(uint8_t digit);
 
 	void clear(void);
 
 	void setCursorVisibility(bool visible, bool blinking);
 	void setFunction(bool eightBitPatch, bool twoLines, bool font5x10);
 
+	void defineChar(uint8_t no, uint8_t * c);
+	void sendSpecialChar(uint8_t no);
+
 private:
-
-
 
 	struct Cursor
 	{

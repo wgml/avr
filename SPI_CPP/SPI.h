@@ -5,10 +5,31 @@
  *      Author: vka
  */
 
+/*
+ * It is simple SPI interface written in C++.
+ * Consider it not full product, which you can
+ * modify to fit your purpose. SPI class doesn't
+ * use interrupts, feel free to modify it.
+ * Usage:
+ * SPI comm(config values).
+ * or
+ * SPI comm;
+ * comm.setDataOrder etc.
+ * next
+ * comm.setIO...
+ * and next
+ * comm.init().
+ * Now you can use it.
+ * Remember to call init() method every time you
+ * change params.
+ */
+
+
 #ifndef SPI_H_
 #define SPI_H_
 
 #include <avr/io.h>
+
 class SPI {
 public:
 	SPI();
@@ -16,11 +37,9 @@ public:
 
 	void 		init();
 
-	void 		sendByte(uint8_t byte);
-	uint8_t		receiveByte(void); 	//todo
+	uint8_t 	sendByte(uint8_t byte);
 
-	void 		sendWord(uint16_t word);
-	uint16_t 	receiveWord(void);	//todo
+	uint16_t 	sendWord(uint16_t word);
 
 	void 		setDataOrder(bool order);
 	void 		setClockPolarity(bool polarity);

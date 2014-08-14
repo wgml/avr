@@ -6,7 +6,6 @@
  */
 
 #include "UART.h"
-//#include <avr/io.h> //todo wtf? not working without that
 
 UART::UART() {
 	// TODO Auto-generated constructor stub
@@ -49,7 +48,7 @@ void UART::init()
 
 	this->init_9600();
 
-	UCSRC |= _BV(URSEL) | /*_BV(USBS) |*/ _BV(UCSZ1) | _BV(UCSZ0); //8-bit data, 2-bit stop
+	UCSRC |= _BV(URSEL) | _BV(USBS) | _BV(UCSZ1) | _BV(UCSZ0); //8-bit data, 2-bit stop
 
 	UCSRB |= _BV(RXEN) | _BV(TXEN); //receive & send enabled
 
@@ -74,7 +73,7 @@ void UART::init_9600()
 uint8_t UART::receiveChar()
 {
 	while(!(UCSRA & _BV(RXC))); //wait for transmition
-	return UDR & ~0x80;
+	return UDR/* & ~0x80*/;
 }
 
 void UART::sendChar(uint8_t c)

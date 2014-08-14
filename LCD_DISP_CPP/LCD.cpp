@@ -14,7 +14,7 @@ LCD::LCD() {
 	this->cursor.visible = true;
 	this->cursor.blinking = true;
 	this->twoLines = true;
-	this->font5x10 = true;
+	this->font5x10 = false;
 	this->eightBitPatch = false;
 }
 
@@ -61,7 +61,7 @@ void LCD::sendChar(uint8_t c)
 		if(this->cursor.y == 1)
 		{
 			//clear screen and go back to (0, 0)
-			this->clear();
+			//this->clear();
 			this->goToPos(0, 0);
 		}
 		else
@@ -90,6 +90,45 @@ void LCD::sendText(const char * txt, uint8_t delay)
 	}
 }
 
+void LCD::sendInt(int32_t num, uint8_t msDelay)
+{
+	uint8_t len = 1;
+	int32_t temp;
+
+	if(num < 0)
+	{
+		temp = -num;
+		len++;
+	}
+	else
+		temp = num;
+
+	while((temp /= 10) != 0)
+		len++;
+
+	char buffer[len + 1];
+
+	if(num < 0)
+		temp = -num;
+	else
+		temp = num;
+
+	for(uint8_t i = len; i > 0; i--, temp /= 10)
+		buffer[i - 1] = temp % 10 + 48;
+
+	if(num < 0)
+		buffer[0] = '-';
+
+	buffer[len] = 0;
+
+	this->sendText(buffer,  msDelay);
+}
+
+void LCD::sendDigit(uint8_t digit)
+{
+	this->sendChar(digit + 48);
+}
+
 void LCD::goToPos(uint8_t line, uint8_t pos)
 {
 	if(line < 2 && pos < 40 && !(this->cursor.x == pos && this->cursor.y == line))
@@ -107,6 +146,8 @@ void LCD::clear()
 {
 	hd44780_outcmd(HD44780_CLR);
 	hd44780_wait_ready(true);
+
+	this->goToPos(0, 0);
 }
 
 void LCD::setCursorVisibility(bool visible, bool blinking)
@@ -120,4 +161,36 @@ void LCD::setFunction(bool eightBitPatch, bool twoLines, bool font5x10)
 	this->eightBitPatch = eightBitPatch;
 	this->twoLines = twoLines;
 	this->font5x10 = font5x10;
+}
+
+void LCD::defineChar(uint8_t no, uint8_t * c)
+{
+	if(no > 7 || (this->font5x10 && no > 3))
+		return;
+
+	hd44780_outcmd(HD44780_CGADDR(no * 8));
+	hd44780_wait_ready(true);
+
+	for(uint8_t i = 0; i < 8; i++)
+	{
+		hd44780_outdata(c[i]);
+		hd44780_wait_ready(true);
+	}
+
+	hd44780_outcmd(HD44780_DDADDR(0));
+	hd44780_wait_ready(true);
+}
+
+void LCD::sendSpecialChar(uint8_t no)
+{
+	if(no > 7 || (this->font5x10 && no > 3))
+		return;
+
+	hd44780_outcmd(HD44780_CGADDR(no * 8));
+	hd44780_wait_ready(true);
+
+	this->sendChar(no);
+
+	hd44780_outcmd(HD44780_DDADDR(0));
+	hd44780_wait_ready(true);
 }

@@ -87,7 +87,7 @@ void SPI::setSPIEnabled(bool enabled)
 	this->SPIenabled = enabled;
 }
 
-void SPI::sendByte(uint8_t byte)
+uint8_t SPI::sendByte(uint8_t byte)
 {
 	*this->PORT &= ~_BV(this->SS);
 	SPDR = byte;
@@ -95,10 +95,14 @@ void SPI::sendByte(uint8_t byte)
 	while(!(SPSR & _BV(SPIF)));
 	*this->PORT |= _BV(this->SS);
 
+	return SPDR;
+
 }
 
-void SPI::sendWord(uint16_t word)
+uint16_t SPI::sendWord(uint16_t word)
 {
+	uint8_t t1,t2;
+
 	*this->PORT &= ~_BV(this->SS);
 	if(this->dataOrder)
 		SPDR = word & 0xFF;
@@ -106,6 +110,9 @@ void SPI::sendWord(uint16_t word)
 		SPDR = (word >> 8) & 0xFF;
 
 	while(!(SPSR & _BV(SPIF)));
+
+
+	t1 = SPDR;
 
 	if(this->dataOrder)
 		SPDR = (word >> 8) & 0xFF;
@@ -115,4 +122,12 @@ void SPI::sendWord(uint16_t word)
 	while(!(SPSR & _BV(SPIF)));
 
 	*this->PORT |= _BV(this->SS);
+
+	t2 = SPDR;
+
+	if(this->dataOrder)
+		return t2 << 8 | t1;
+	else
+		return t1 << 8 | t2;
 }
+
