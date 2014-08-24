@@ -129,9 +129,52 @@ void LCD::sendDigit(uint8_t digit)
 	this->sendChar(digit + 48);
 }
 
-void LCD::sendHex(uint32_t h, uint8_t msDelay)
+void LCD::sendHex(uint32_t h, bool sendPrefix, bool sendZeros, uint8_t msDelay)
 {
+	uint8_t len = 1;
+	uint32_t temp = h;
+	uint8_t val;
+	uint8_t seg1, seg2;
+	uint8_t bufferSize;
 
+	if(sendZeros)
+		len = 4;
+	else
+		while((temp >>= 8) != 0)
+			len++;
+
+	bufferSize = 2 * len;
+	if(sendPrefix)
+		bufferSize += 2;
+
+	char buffer[bufferSize + 1];
+	buffer[bufferSize] = '\0';
+
+	if(sendPrefix)
+	{
+		buffer[0] = '0';
+		buffer[1] = 'x';
+	}
+
+
+	for(uint8_t i = 0; i < len; i++)
+	{
+		val = (h >> (i * 8)) & 0xFF;
+		seg1 = (val >> 4) & 0x0F;
+		seg2 = val & 0x0F;
+
+		if(seg1 > 9)
+			buffer[(bufferSize - 1) - 2 * i - 1] = 65 + (seg1 - 10);
+		else
+			buffer[(bufferSize - 1) - 2 * i - 1] = 48 + seg1;
+
+		if(seg2 > 9)
+			buffer[(bufferSize - 1) - 2 * i] = 65 + (seg2 - 10);
+		else
+			buffer[(bufferSize - 1) - 2 * i] = 48 + seg2;
+	}
+
+	this->sendText(buffer, msDelay);
 }
 
 void LCD::goToPos(uint8_t line, uint8_t pos)
