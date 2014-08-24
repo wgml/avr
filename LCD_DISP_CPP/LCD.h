@@ -25,6 +25,7 @@ public:
 	void sendChar(uint8_t c);
 	void sendInt(int32_t i, uint8_t msDelay = 0);
 	void sendDigit(uint8_t digit);
+	void sendHex(uint32_t h, uint8_t msDelay = 0);
 
 	void clear(void);
 

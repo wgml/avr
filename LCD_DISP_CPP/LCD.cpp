@@ -129,6 +129,11 @@ void LCD::sendDigit(uint8_t digit)
 	this->sendChar(digit + 48);
 }
 
+void LCD::sendHex(uint32_t h, uint8_t msDelay)
+{
+
+}
+
 void LCD::goToPos(uint8_t line, uint8_t pos)
 {
 	if(line < 2 && pos < 40 && !(this->cursor.x == pos && this->cursor.y == line))
