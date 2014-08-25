@@ -21,4 +21,4 @@ I'm using Linux system while writting thus I have not tested code on Windows / M
 
 LICENSE
 ==
-License is **GPL v3**. See LICENSE file for more.
+License is **MIT**. See ```LICENSE.md``` file for more.
