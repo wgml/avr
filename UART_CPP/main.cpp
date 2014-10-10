@@ -1,4 +1,4 @@
-#define F_CPU 8000000UL
+#define F_CPU 1000000UL
 
 #include "UART.h"
 #include <util/delay.h>
@@ -9,7 +9,7 @@ int main()
 
 #ifdef DEBUG
 	DDRC = 0xff;
-	PORTC = 0xff;
+	PORTC = 0xF0;
 #endif
 
 	UART comm;
