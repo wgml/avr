@@ -1,27 +1,28 @@
-#define F_CPU 8000000UL
+/*
+ * main.cpp
+ *
+ *  Created on: 11 paź 2014
+ *      Author: vka
+ */
 
-#include <avr/io.h>
-#include <util/delay.h>
+#include "UART/UART.h"
 
-#include "SD.h"
-
+#include "SDCard.h"
 
 int main()
 {
-	SD sd;
 	UART uart;
+	SDCard card;
+
 	uart.init();
 
-	sd.setUART(&uart);
+	uart.receiveChar();
 
-	uart.receiveChar(); //dummy for waiting with start for uart comm.
+	uart.sendText((uint8_t *) "Program init\n");
 
-	sd.init();
-	while(1)
-	{
-		uart.sendText((int8_t*) "Infinite loop.\n");
-		break;
-
-	}
+	while(1);
 
 }
+
+
+

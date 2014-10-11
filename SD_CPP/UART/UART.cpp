@@ -48,7 +48,7 @@ void UART::init()
 
 	this->init_9600();
 
-	UCSRC |= _BV(URSEL) | _BV(USBS) | _BV(UCSZ1) | _BV(UCSZ0); //8-bit data, 2-bit stop
+	UCSRC |= _BV(URSEL) /*| _BV(USBS)*/ | _BV(UCSZ1) | _BV(UCSZ0); //8-bit data, 2-bit stop
 
 	UCSRB |= _BV(RXEN) | _BV(TXEN); //receive & send enabled
 
